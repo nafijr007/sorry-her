@@ -4,89 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You AFIFA❤️</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:linear-gradient(120deg,#ffc0cb,#ffb6c1,#ff69b4);overflow:hidden;position:relative;}
-
-.page{position:absolute;width:100%;height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:20px;opacity:0;pointer-events:none;transition:0.6s;}
-.page.active{opacity:1;pointer-events:auto;}
-
-h1{font-size:2.5rem;color:#800000;font-weight:bold;text-shadow:2px 2px 8px rgba(255,182,193,0.8);} 
-p{color:#4b0000;font-size:1rem;max-width:90%;margin-top:15px;text-shadow:1px 1px 5px rgba(255,182,193,0.6);}
-.btn{margin-top:25px;padding:12px 20px;border:none;border-radius:30px;background:#ff69b4;color:white;font-weight:bold;cursor:pointer;transition:0.3s;font-size:1rem;}
-.btn:hover{transform:scale(1.1);background:#ff1493;} 
-
-#hiddenBox{margin-top:20px;padding:15px;border-radius:15px;background:rgba(255,105,180,0.4);backdrop-filter:blur(10px);opacity:0;transform:scale(0.8);transition:0.5s;}
-#hiddenBox.show{opacity:1;transform:scale(1);} 
-
-.bubble{position:absolute;border-radius:50%;animation:rise linear infinite;opacity:0.7;background-size:cover;background-position:center;}
-@keyframes rise{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-120vh) scale(0.5);} }
-
-.card{background:rgba(255,105,180,0.6);backdrop-filter:blur(10px);padding:20px;border-radius:20px;box-shadow:0 10px 30px rgba(255,105,180,0.5);width:90%;max-width:400px;} 
-
-.heart{font-size:40px;cursor:pointer;animation:beat 1s infinite;margin-top:15px;}
-@keyframes beat{0%,100%{transform:scale(1);}50%{transform:scale(1.4);} }
-
-.choice{display:flex;gap:15px;margin-top:20px;position:relative;}
-.no-btn{position:relative;}
-
-/* Hearts explosion */
-.heart-burst{position:fixed;width:25px;height:25px;background:radial-gradient(circle, #ff69b4,#ff1493);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:burst 1s forwards;}
-@keyframes burst{0%{transform:translate(0,0) scale(0.5);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(1.5);opacity:0;}}
-
-/* Polaroid slideshow */
-#slideshow{
+body{
+  background:linear-gradient(120deg,#ffc0cb,#ffb6c1,#ff69b4);
+  overflow:hidden;
   position:relative;
-  width:90%;
-  max-width:480px;
-  height:auto;
-  margin-top:20px;
 }
 
-.polaroid{
+/* Pages */
+.page{
   position:absolute;
   width:100%;
-  height:auto;
-  background:#ffc0cb;
-  border-bottom:40px solid #ffb6c1;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  border-radius:5px;
-  top:0;
-  left:0;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
-  transition:all 1s;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+  opacity:0;
+  pointer-events:none;
+  transition:0.6s;
+}
+.page.active{opacity:1;pointer-events:auto;}
+
+h1{color:#800000;font-size:2.4rem;}
+p{color:#4b0000;margin-top:10px;}
+
+.btn{
+  margin-top:20px;
+  padding:12px 20px;
+  border:none;
+  border-radius:30px;
+  background:#ff69b4;
+  color:white;
+  cursor:pointer;
 }
 
-.polaroid img.photo{
-  width:92%;         
-  height:auto;
-  object-fit:contain;
+/* Hidden box */
+#hiddenBox{
+  margin-top:20px;
+  padding:15px;
+  border-radius:15px;
+  background:rgba(255,105,180,0.4);
+  opacity:0;
+  transform:scale(0.8);
+  transition:0.5s;
+}
+#hiddenBox.show{opacity:1;transform:scale(1);}
+
+/* Heart */
+.heart{font-size:40px;cursor:pointer;animation:beat 1s infinite;}
+@keyframes beat{50%{transform:scale(1.3);}}
+
+/* Forgive section */
+.card{
+  background:rgba(255,105,180,0.6);
+  padding:20px;
+  border-radius:20px;
+}
+.choice{display:flex;gap:10px;margin-top:20px;}
+.no-btn{position:relative;}
+
+/* HEART BURST */
+.heart-burst{
+  position:fixed;
+  width:20px;
+  height:20px;
+  background:#ff1493;
+  border-radius:50%;
+  animation:burst 1s forwards;
+}
+@keyframes burst{
+  to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+
+/* POLAROID FRAME (FIXED) */
+.polaroid{
+  position:absolute;
+  width:260px;
+  height:320px;
+  background:#fff;
+  padding:12px;
+  border-radius:6px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.polaroid img{
+  width:100%;
+  height:240px;
+  object-fit:cover;
   border-radius:3px;
 }
 
-.polaroid.active{z-index:2;}
+/* Slideshow container */
+#slideshow{
+  position:relative;
+  width:260px;
+  height:320px;
+}
+
+/* BUBBLES (FIXED) */
+.bubble{
+  position:absolute;
+  border-radius:50%;
+  background-size:cover;
+  background-position:center;
+  opacity:0.8;
+  animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0);}
+  to{transform:translateY(-120vh);}
+}
+
 </style>
 </head>
+
 <body>
 
-<!-- Page 1 -->
+<!-- PAGE 1 -->
 <div class="page active" id="page1">
-  <h1>Hey Afifa my love ❤️</h1>
+  <h1>Hey Afifa ❤️</h1>
   <p id="typing"></p>
   <button class="btn" onclick="startExperience()">Start</button>
 </div>
 
-<!-- Page 2 -->
+<!-- PAGE 2 -->
 <div class="page" id="page2">
-  <h1>Unlock My Heart 💖</h1>
-  <p>Tap the heart 5 times to unlock something special</p>
+  <h1>Tap my heart 💖</h1>
   <div class="heart" onclick="tapHeart()">❤️</div>
 </div>
 
-<!-- Page 3 -->
+<!-- PAGE 3 -->
 <div class="page" id="page3">
   <h1>Hidden Message 👀</h1>
   <button class="btn" onclick="revealMessage()">Reveal</button>
@@ -96,92 +149,145 @@ p{color:#4b0000;font-size:1rem;max-width:90%;margin-top:15px;text-shadow:1px 1px
   </div>
 </div>
 
-<!-- Page 4 -->
+<!-- PAGE 4 -->
 <div class="page" id="page4">
   <h1>I Love You 💖</h1>
   <p>You are my peace, my happiness, my everything. Life feels right only with you.</p>
   <button class="btn" onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- Page 5 -->
+<!-- PAGE 5 -->
 <div class="page" id="page5">
   <div class="card">
-    <h1>Will You Forgive Me? 🥺</h1>
-    <p>I promise to be better everyday... just don’t say no 😭</p>
+    <h1>Forgive me Please? 🥺</h1>
+     <p>I promise to be better everyday... just don’t say no 😭</p>
     <div class="choice">
-      <button class="btn" onclick="yesForgive()">Yes ❤️</button>
-      <button class="btn no-btn" id="noBtn" onmouseover="moveNo()">No 😢</button>
+      <button class="btn" onclick="yesForgive()">Yes</button>
+      <button class="btn no-btn" id="noBtn" onmouseover="moveNo()">No</button>
     </div>
   </div>
 </div>
 
-<!-- Page 6 -->
+<!-- PAGE 6 -->
 <div class="page" id="page6">
-  <h1>Forever & Always 💕</h1>
-  <p>Here’s our special little world together Puchuu 💖</p>
+  <h1>Forever 💕</h1>
+   <p>Here’s our special little world together Puchuu 💖</p>
+
   <div id="slideshow">
-    <div class="polaroid active" style="transform:rotate(-3deg)"><img src="https://i.ibb.co/Y7zcGsR3/1000037014-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(5deg)"><img src="https://i.ibb.co/cSFFQx6H/1000041983-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(-6deg)"><img src="https://i.ibb.co/jPYdLy1W/1000046513-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(4deg)"><img src="https://i.ibb.co/nNrPqrnb/1000049596-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(-5deg)"><img src="https://i.ibb.co/QhJJHFL/1000052566-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(3deg)"><img src="https://i.ibb.co/7dWhm5wX/1000052568-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(-4deg)"><img src="https://i.ibb.co/Z678t59p/1000052923-jpg.jpg" class="photo"></div>
-    <div class="polaroid" style="transform:rotate(6deg)"><img src="https://i.ibb.co/hFcXfr1r/1000052955-jpg.jpg" class="photo"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/39f6dxxm/1000037014-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/Z6XXQvQ5/1000041983-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/FkqbC5gm/1000046513-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/PvVHsfsT/1000049596-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/ch79fBJc/1000052566-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/9kM5jS1W/1000052568-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/dn3YdfV/1000052923-jpg.jpg"></div>
+    <div class="polaroid"><img src="https://i.ibb.co.com/99wqrqpd/1000052955-jpg.jpg"></div>
   </div>
 </div>
 
-<!-- Background Music -->
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
-  <source src="https://image2url.com/r2/default/audio/1775332836445-3a994ab7-e765-47df-9ee6-adf367562338.mp3" type="audio/mp3">
+  <source src="https://image2url.com/r2/default/audio/1775332836445-3a994ab7-e765-47df-9ee6-adf367562338.mp3">
 </audio>
 
 <script>
-// Play music only after user taps "Start" button (iPhone friendly)
+
+/* Navigation */
 function startExperience(){
+  nextPage(2);
+  document.getElementById('bgMusic').play();
+}
+function nextPage(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page2').classList.add('active');
-  const music = document.getElementById('bgMusic');
-  music.play();
+  document.getElementById('page'+n).classList.add('active');
 }
 
-// Typing effect
-const text="This is not just a website... it's my heart speaking to you ❤️";
+/* Typing */
+let t="This is Zarib's heart speaking to you ❤️";
 let i=0;
-function typing(){if(i<text.length){document.getElementById('typing').innerHTML+=text.charAt(i);i++;setTimeout(typing,40);}}
-typing();
+(function type(){
+ if(i<t.length){
+  document.getElementById('typing').innerHTML+=t[i++];
+  setTimeout(type,40);
+ }
+})();
 
-// Tap heart game
+/* Heart tap */
 let taps=0;
-function tapHeart(){taps++;if(taps>=5){nextPage(3);}}
-function nextPage(pageNumber){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+pageNumber).classList.add('active');}
-
-// Reveal hidden message
-function revealMessage(){
-  document.getElementById('hiddenBox').classList.add('show');
-  let msg="Without you I am nothing Afifa. You made me & my life fully completed. I just need only you dear nothing else. I do a lot of mistakes. But I promise I'll workout on it more. I love you more than any other things sweetheart. Please stay with me forever ❤️";
-  let j=0;
-  function type(){if(j<msg.length){document.getElementById('loveText').innerHTML+=msg.charAt(j);j++;setTimeout(type,40);}}
-  type();
+function tapHeart(){
+ taps++;
+ if(taps>=5) nextPage(3);
 }
 
-// Move No button
-function moveNo(){const btn=document.getElementById('noBtn');const x=Math.random()*200-100;const y=Math.random()*200-100;btn.style.transform=`translate(${x}px,${y}px)`;}
+/* Message */
+function revealMessage(){
+ document.getElementById('hiddenBox').classList.add('show');
+ let msg="Without you I am nothing Afifa. You made me & my life fully completed. I just need only you dear nothing else. I do a lot of mistakes. But I promise I'll workout on it more. I love you more than any other things sweetheart. Please stay with me forever ❤️";
+ let j=0;
+ (function type(){
+   if(j<msg.length){
+     document.getElementById('loveText').innerHTML+=msg[j++];
+     setTimeout(type,40);
+   }
+ })();
+}
 
-// Yes forgiveness animation
-function yesForgive(){createHearts(20);setTimeout(()=>nextPage(6),1000);}
-function createHearts(count){for(let k=0;k<count;k++){const h=document.createElement('div');h.classList.add('heart-burst');h.style.setProperty('--x',`${Math.random()*400-200}px`);h.style.setProperty('--y',`${Math.random()*-400}px`);h.style.left=`${50+Math.random()*10-5}%`;h.style.top=`${50+Math.random()*10-5}%`;document.body.appendChild(h);setTimeout(()=>h.remove(),1000);}}
+/* No button move */
+function moveNo(){
+ let b=document.getElementById('noBtn');
+ b.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+}
 
-// Bubbles floating
-const images=['https://i.ibb.co/XfMvKcZW/1000040672-jpg.jpg','https://i.ibb.co/MyvfwM06/1000041644-jpg.jpg','https://i.ibb.co/JWg498hb/1000045887-jpg.jpg','https://i.ibb.co/C5Y3xwN8/1000046024-jpg.jpg','https://i.ibb.co/Kz2j8k8k/1000046765-jpg.jpg','https://i.ibb.co/Swb9B2fY/1000048526-jpg.jpg','https://i.ibb.co/1GFncgrc/1000051996-jpg.jpg','https://i.ibb.co/PGwHkqqV/1000052960-jpg.jpg','https://i.ibb.co/SwrnDhn3/1000053692-jpg.jpg'];
-function createBubble(){const bubble=document.createElement('div');let size=Math.random()*60+40;bubble.classList.add('bubble');bubble.style.width=size+'px';bubble.style.height=size+'px';bubble.style.left=Math.random()*window.innerWidth+'px';bubble.style.top=Math.random()*window.innerHeight+'px';bubble.style.backgroundImage=`url(${images[Math.floor(Math.random()*images.length)]})`;bubble.style.animationDuration=(Math.random()*10+5)+'s';document.body.appendChild(bubble);setTimeout(()=>bubble.remove(),15000);}
-setInterval(createBubble,500);
+/* Yes */
+function yesForgive(){
+ for(let i=0;i<20;i++){
+  let h=document.createElement('div');
+  h.className='heart-burst';
+  h.style.setProperty('--x',Math.random()*400-200+'px');
+  h.style.setProperty('--y',Math.random()*-400+'px');
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),1000);
+ }
+ setTimeout(()=>nextPage(6),800);
+}
 
-// Slideshow
-let polaroids = document.querySelectorAll('#slideshow .polaroid');
-let slideIndex = 0;
-function showSlides(){polaroids.forEach((p,i)=>p.classList.remove('active'));polaroids[slideIndex].classList.add('active');slideIndex = (slideIndex+1) % polaroids.length;setTimeout(showSlides, 3000);}
-showSlides();
+/* BUBBLES FIXED */
+const bubbleImgs=[
+'https://i.ibb.co.com/kVvRSnmc/1000040672-jpg.jpg',
+'https://i.ibb.co.com/Gf7PhM3T/1000041644-jpg.jpg',
+'https://i.ibb.co.com/Y4NjF5kb/1000045887-jpg.jpg',
+'https://i.ibb.co.com/0RrKBV1H/1000046024-jpg.jpg',
+'https://i.ibb.co.com/sdwySx57/1000046765-jpg.jpg',
+'https://i.ibb.co.com/fYwZ547y/1000048526-jpg.jpg',
+'https://i.ibb.co.com/p6msPnMz/1000051996-jpg.jpg',
+'https://i.ibb.co.com/m578wZvB/1000052960-jpg.jpg',
+'https://i.ibb.co.com/Ldgvvs2J/1000053692-jpg.jpg'
+];
+
+function createBubble(){
+ let b=document.createElement('div');
+ b.className='bubble';
+ let size=Math.random()*60+40;
+ b.style.width=size+'px';
+ b.style.height=size+'px';
+ b.style.left=Math.random()*100+'vw';
+ b.style.top='100vh';
+ b.style.backgroundImage=`url(${bubbleImgs[Math.floor(Math.random()*bubbleImgs.length)]})`;
+ b.style.animationDuration=(Math.random()*10+5)+'s';
+ document.body.appendChild(b);
+ setTimeout(()=>b.remove(),15000);
+}
+setInterval(createBubble,400);
+
+/* Slideshow */
+let slides=document.querySelectorAll('.polaroid');
+let index=0;
+setInterval(()=>{
+ slides.forEach(s=>s.style.display='none');
+ slides[index].style.display='block';
+ index=(index+1)%slides.length;
+},3000);
+
 </script>
 </body>
 </html>
